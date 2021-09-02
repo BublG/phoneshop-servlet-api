@@ -9,12 +9,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ArrayListProductDao implements ProductDao {
-
-    List<Product> products;
-    private long maxId;
+    private final List<Product> products;
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
     private final ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
     private final ReentrantReadWriteLock.WriteLock writeLock = lock.writeLock();
+    private long maxId;
 
     public ArrayListProductDao() {
         this.products = new ArrayList<>();
@@ -63,7 +62,7 @@ public class ArrayListProductDao implements ProductDao {
         writeLock.lock();
         IntStream.range(0, products.size())
                 .filter(i -> id.equals(products.get(i).getId()))
-                .findAny().ifPresent(i -> products.remove(i));
+                .findAny().ifPresent(products::remove);
         writeLock.unlock();
     }
 
