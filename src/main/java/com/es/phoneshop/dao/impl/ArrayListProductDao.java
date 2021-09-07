@@ -1,42 +1,49 @@
-package com.es.phoneshop.model.product;
+package com.es.phoneshop.dao.impl;
+
+import com.es.phoneshop.dao.ProductDao;
+import com.es.phoneshop.exception.ProductNotFoundException;
+import com.es.phoneshop.model.product.Product;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ArrayListProductDao implements ProductDao {
     private final List<Product> products;
-    private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
-    private final ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
-    private final ReentrantReadWriteLock.WriteLock writeLock = lock.writeLock();
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
+    private final Lock readLock = lock.readLock();
+    private final Lock writeLock = lock.writeLock();
     private long maxId;
 
     public ArrayListProductDao() {
-        this.products = new ArrayList<>();
+        products = new ArrayList<>();
         saveSampleProducts();
     }
 
     @Override
     public Product getProduct(Long id) throws ProductNotFoundException {
         readLock.lock();
-        Product p = products.stream()
-                .filter(product -> id.equals(product.getId()))
-                .findAny()
-                .orElseThrow(ProductNotFoundException::new);
-        readLock.unlock();
-        return p;
+        try {
+            return products.stream()
+                    .filter(product -> id.equals(product.getId()))
+                    .findAny()
+                    .orElseThrow(() -> new ProductNotFoundException("Id doesn't exist"));
+        } finally {
+            readLock.unlock();
+        }
     }
 
     @Override
     public List<Product> findProducts() {
         readLock.lock();
         List<Product> list = products.stream()
-                .filter(p -> p.getPrice() != null)
-                .filter(p -> p.getStock() > 0)
+                .filter(p -> p.getPrice() != null && p.getStock() > 0)
                 .collect(Collectors.toList());
         readLock.unlock();
         return list;
@@ -60,9 +67,7 @@ public class ArrayListProductDao implements ProductDao {
     @Override
     public void delete(Long id) {
         writeLock.lock();
-        IntStream.range(0, products.size())
-                .filter(i -> id.equals(products.get(i).getId()))
-                .findAny().ifPresent(products::remove);
+        products.removeIf(product -> id.equals(product.getId()));
         writeLock.unlock();
     }
 
