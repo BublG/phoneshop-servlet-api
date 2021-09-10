@@ -42,33 +42,41 @@ public class ArrayListProductDao implements ProductDao {
     @Override
     public List<Product> findProducts() {
         readLock.lock();
-        List<Product> list = products.stream()
-                .filter(p -> p.getPrice() != null && p.getStock() > 0)
-                .collect(Collectors.toList());
-        readLock.unlock();
-        return list;
+        try {
+            return products.stream()
+                    .filter(p -> p.getPrice() != null && p.getStock() > 0)
+                    .collect(Collectors.toList());
+        } finally {
+            readLock.unlock();
+        }
     }
 
     @Override
     public void save(Product product) {
         writeLock.lock();
-        if (product.getId() != null) {
-            IntStream.range(0, products.size())
-                    .filter(i -> product.getId().equals(products.get(i).getId()))
-                    .findAny()
-                    .ifPresent(i -> products.set(i, product));
-        } else {
-            product.setId(maxId++);
-            products.add(product);
+        try {
+            if (product.getId() != null) {
+                IntStream.range(0, products.size())
+                        .filter(i -> product.getId().equals(products.get(i).getId()))
+                        .findAny()
+                        .ifPresent(i -> products.set(i, product));
+            } else {
+                product.setId(maxId++);
+                products.add(product);
+            }
+        } finally {
+            writeLock.unlock();
         }
-        writeLock.unlock();
     }
 
     @Override
     public void delete(Long id) {
         writeLock.lock();
-        products.removeIf(product -> id.equals(product.getId()));
-        writeLock.unlock();
+        try {
+            products.removeIf(product -> id.equals(product.getId()));
+        } finally {
+            writeLock.unlock();
+        }
     }
 
     private void saveSampleProducts() {
