@@ -24,6 +24,22 @@ td {
     vertical-align: top;
 }
 
+.sort-link {
+    text-decoration: none;
+    margin-right: 2px;
+    color: gray;
+}
+
+.sort-link:hover {
+    color: black;
+}
+
+.current-link {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+
 .price {
     text-align: right;
 }

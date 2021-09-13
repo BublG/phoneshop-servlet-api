@@ -1,6 +1,7 @@
 package com.es.phoneshop.dao.impl;
 
-import com.es.phoneshop.comparator.PhoneSearchComparator;
+import com.es.phoneshop.comparator.ProductDescriptionAndPriceComparator;
+import com.es.phoneshop.comparator.ProductSearchComparator;
 import com.es.phoneshop.dao.ProductDao;
 import com.es.phoneshop.exception.ProductNotFoundException;
 import com.es.phoneshop.model.product.Product;
@@ -42,16 +43,20 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     @Override
-    public List<Product> findProducts(String query) {
+    public List<Product> findProducts(String query, String sortField, String sortOrder) {
         readLock.lock();
-        String[] words = query == null ? new String[] {} : query.toLowerCase().trim().split("\\s+");
+        String[] words = query == null ? new String[]{} : query.toLowerCase().trim().split("\\s+");
         try {
-            return products.stream()
+            List<Product> list = products.stream()
                     .filter(p -> p.getPrice() != null && p.getStock() > 0)
                     .filter(p -> words.length == 0 || Arrays.stream(words)
                             .anyMatch(w -> p.getDescription().toLowerCase().contains(w)))
-                    .sorted(new PhoneSearchComparator(words))
+                    .sorted(new ProductSearchComparator(words))
                     .collect(Collectors.toList());
+            if (sortField != null) {
+                list.sort(new ProductDescriptionAndPriceComparator(sortField, sortOrder));
+            }
+            return list;
         } finally {
             readLock.unlock();
         }

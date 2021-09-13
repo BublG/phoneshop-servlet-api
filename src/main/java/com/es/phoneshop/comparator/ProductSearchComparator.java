@@ -6,11 +6,11 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-public class PhoneSearchComparator implements Comparator<Product> {
+public class ProductSearchComparator implements Comparator<Product> {
 
-    String[] words;
+    private final String[] words;
 
-    public PhoneSearchComparator(String[] words) {
+    public ProductSearchComparator(String[] words) {
         this.words = words;
     }
 
