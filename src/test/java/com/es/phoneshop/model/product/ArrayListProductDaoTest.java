@@ -1,21 +1,77 @@
 package com.es.phoneshop.model.product;
 
+import com.es.phoneshop.dao.impl.ArrayListProductDao;
+import com.es.phoneshop.dao.ProductDao;
+import com.es.phoneshop.exception.ProductNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import java.math.BigDecimal;
+import java.util.Currency;
+import java.util.List;
 
-public class ArrayListProductDaoTest
-{
+import static org.junit.Assert.*;
+
+public class ArrayListProductDaoTest {
     private ProductDao productDao;
+    private Currency usd;
 
     @Before
     public void setup() {
         productDao = new ArrayListProductDao();
+        usd = Currency.getInstance("USD");
     }
 
     @Test
     public void testFindProductsNoResults() {
-        assertTrue(productDao.findProducts().isEmpty());
+        assertFalse(productDao.findProducts().isEmpty());
+    }
+
+    @Test
+    public void testSaveNewProduct() throws ProductNotFoundException {
+        Product product = new Product("TEST", "Apple iPhone 6", new BigDecimal(1000), usd, 30, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Apple/Apple%20iPhone%206.jpg");
+        productDao.save(product);
+        Product savedProduct = productDao.getProduct(product.getId());
+
+        assertNotNull(product.getId());
+        assertNotNull(savedProduct);
+        assertEquals("TEST", savedProduct.getCode());
+    }
+
+    @Test
+    public void testUpdateProduct() throws ProductNotFoundException {
+        Product product = new Product("TEST", "Apple iPhone 6", new BigDecimal(1000), usd, 30, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Apple/Apple%20iPhone%206.jpg");
+        productDao.save(product);
+        Product savedProduct = productDao.getProduct(product.getId());
+        savedProduct.setDescription("Xiaomi");
+        productDao.save(savedProduct);
+
+        assertEquals(product.getId(), savedProduct.getId());
+        assertEquals("Xiaomi", productDao.getProduct(product.getId()).getDescription());
+    }
+
+    @Test
+    public void testFindProductWithNotZeroStock() {
+        int sizeBefore = productDao.findProducts().size();
+        Product product1 = new Product("TEST1", "Apple iPhone 6", new BigDecimal(1000), usd, 30, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Apple/Apple%20iPhone%206.jpg");
+        Product product2 = new Product("TEST2", "Apple iPhone 6", new BigDecimal(1000), usd, 0, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Apple/Apple%20iPhone%206.jpg");
+        Product product3 = new Product("TEST3", "Apple iPhone 6", new BigDecimal(1000), usd, 0, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Apple/Apple%20iPhone%206.jpg");
+        productDao.save(product1);
+        productDao.save(product2);
+        productDao.save(product3);
+        List<Product> products = productDao.findProducts();
+
+        assertEquals(productDao.findProducts().size() - 1, sizeBefore);
+        assertEquals("TEST1", products.get(products.size() - 1).getCode());
+        for (Product p : products)
+            assertTrue(p.getStock() > 0);
+    }
+
+    @Test(expected = ProductNotFoundException.class)
+    public void testDeleteProduct() throws ProductNotFoundException {
+        Product product = new Product("TEST", "Apple iPhone 6", new BigDecimal(1000), usd, 30, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Apple/Apple%20iPhone%206.jpg");
+        productDao.save(product);
+        productDao.delete(product.getId());
+        productDao.getProduct(product.getId());
     }
 }
