@@ -1,6 +1,9 @@
 package com.es.phoneshop.web.servlet;
 
-import com.es.phoneshop.web.servlet.ProductListPageServlet;
+import com.es.phoneshop.dao.ProductDao;
+import com.es.phoneshop.dao.impl.ArrayListProductDao;
+import com.es.phoneshop.exception.ProductNotFoundException;
+import com.es.phoneshop.model.product.Product;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProductListPageServletTest {
+public class ProductPriceHistoryServletTest {
     @Mock
     private HttpServletRequest request;
     @Mock
@@ -29,22 +32,23 @@ public class ProductListPageServletTest {
     @Mock
     private ServletConfig servletConfig;
 
-    private final ProductListPageServlet servlet = new ProductListPageServlet();
+    private final ProductDao productDao = ArrayListProductDao.getInstance();
+    private final ProductPriceHistoryServlet servlet = new ProductPriceHistoryServlet();
 
     @Before
     public void setup() throws ServletException {
         servlet.init(servletConfig);
+        productDao.save(new Product());
         when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
+        when(request.getParameter("id")).thenReturn("0");
     }
 
     @Test
     public void testDoGet() throws ServletException, IOException {
         servlet.doGet(request, response);
 
-        verify(request).getParameter(eq("query"));
-        verify(request).getParameter(eq("sort"));
-        verify(request).getParameter(eq("order"));
-        verify(request).setAttribute(eq("products"), any());
+        verify(request).getParameter("id");
+        verify(request).setAttribute(eq("product"), any());
         verify(requestDispatcher).forward(request, response);
     }
 }
