@@ -33,7 +33,11 @@
                 <td>
                     <img class="product-tile" src="${product.imageUrl}">
                 </td>
-                <td>${product.description}</td>
+                <td>
+                    <a href="${pageContext.servletContext.contextPath}/products/${product.id}">
+                            ${product.description}
+                    </a>
+                </td>
                 <td class="price">
                     <fmt:formatNumber value="${product.price}" type="currency"
                                       currencySymbol="${product.currency.symbol}"/>
@@ -42,10 +46,3 @@
         </c:forEach>
     </table>
 </tags:master>
-
-<script>
-    let url = new URL(window.location)
-    let sort = url.searchParams.get('sort')
-    let order = url.searchParams.get('order')
-    document.getElementById(sort + '_' + order).setAttribute('class', 'current-link')
-</script>

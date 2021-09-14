@@ -6,10 +6,8 @@ import com.es.phoneshop.dao.ProductDao;
 import com.es.phoneshop.exception.ProductNotFoundException;
 import com.es.phoneshop.model.product.Product;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Currency;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -23,15 +21,21 @@ public class ArrayListProductDao implements ProductDao {
     private final Lock readLock = lock.readLock();
     private final Lock writeLock = lock.writeLock();
     private long maxId;
-    private static ProductDao instance;
+    private static volatile ProductDao instance;
 
     private ArrayListProductDao() {
         products = new ArrayList<>();
     }
 
     public static synchronized ProductDao getInstance() {
-        if (instance == null) {
-            instance = new ArrayListProductDao();
+        ProductDao localInstance = instance;
+        if (localInstance == null) {
+            synchronized (ArrayListProductDao.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new ArrayListProductDao();
+                }
+            }
         }
         return instance;
     }
@@ -43,7 +47,7 @@ public class ArrayListProductDao implements ProductDao {
             return products.stream()
                     .filter(product -> id.equals(product.getId()))
                     .findAny()
-                    .orElseThrow(() -> new ProductNotFoundException("Id doesn't exist"));
+                    .orElseThrow(() -> new ProductNotFoundException(id));
         } finally {
             readLock.unlock();
         }

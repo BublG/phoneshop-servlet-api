@@ -49,6 +49,19 @@ img.product-tile {
 }
 
 /* Page specific styles */
-body.product-list {
+html.product-list, body.product-list {
+    height: 100%;
+}
 
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.content {
+    flex: 1 0 auto;
+}
+.footer {
+    flex: 0 0 auto;
+    text-align: center;
 }
