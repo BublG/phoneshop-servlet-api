@@ -1,30 +1,29 @@
 package com.es.phoneshop.model.product;
 
+import com.es.phoneshop.model.priceHistory.PriceHistory;
+
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Product {
     private Long id;
     private String code;
     private String description;
-    /** null means there is no price because the product is outdated or new */
+    /**
+     * null means there is no price because the product is outdated or new
+     */
     private BigDecimal price;
-    /** can be null if the price is null */
+    /**
+     * can be null if the price is null
+     */
     private Currency currency;
     private int stock;
     private String imageUrl;
+    private List<PriceHistory> priceHistoryList;
 
     public Product() {
-    }
-
-    public Product(Long id, String code, String description, BigDecimal price, Currency currency, int stock, String imageUrl) {
-        this.id = id;
-        this.code = code;
-        this.description = description;
-        this.price = price;
-        this.currency = currency;
-        this.stock = stock;
-        this.imageUrl = imageUrl;
     }
 
     public Product(String code, String description, BigDecimal price, Currency currency, int stock, String imageUrl) {
@@ -34,6 +33,18 @@ public class Product {
         this.currency = currency;
         this.stock = stock;
         this.imageUrl = imageUrl;
+        this.priceHistoryList = new LinkedList<>();
+    }
+
+    public Product(String code, String description, BigDecimal price, Currency currency, int stock, String imageUrl,
+                   List<PriceHistory> priceHistoryList) {
+        this.code = code;
+        this.description = description;
+        this.price = price;
+        this.currency = currency;
+        this.stock = stock;
+        this.imageUrl = imageUrl;
+        this.priceHistoryList = priceHistoryList;
     }
 
     public Long getId() {
@@ -90,5 +101,17 @@ public class Product {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public List<PriceHistory> getPriceHistoryList() {
+        return priceHistoryList;
+    }
+
+    public void setPriceHistoryList(List<PriceHistory> priceHistoryList) {
+        this.priceHistoryList = priceHistoryList;
+    }
+
+    public void addRecordToPriceHistory(PriceHistory priceHistory) {
+        priceHistoryList.add(0, priceHistory);
     }
 }

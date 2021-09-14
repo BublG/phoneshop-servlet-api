@@ -56,7 +56,7 @@ public class ArrayListProductDao implements ProductDao {
     @Override
     public List<Product> findProducts(String query, String sortField, String sortOrder) {
         readLock.lock();
-        String[] words = query == null ? new String[]{} : query.toLowerCase().trim().split("\\s+");
+        String[] words = (query == null) ? new String[]{} : query.toLowerCase().trim().split("\\s+");
         try {
             List<Product> list = products.stream()
                     .filter(p -> p.getPrice() != null && p.getStock() > 0)
