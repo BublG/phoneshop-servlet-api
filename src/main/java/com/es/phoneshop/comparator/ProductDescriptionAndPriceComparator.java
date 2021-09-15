@@ -2,7 +2,7 @@ package com.es.phoneshop.comparator;
 
 import com.es.phoneshop.enums.SortField;
 import com.es.phoneshop.enums.SortOrder;
-import com.es.phoneshop.model.product.Product;
+import com.es.phoneshop.model.Product;
 
 import java.util.Comparator;
 
@@ -18,12 +18,12 @@ public class ProductDescriptionAndPriceComparator implements Comparator<Product>
 
     @Override
     public int compare(Product o1, Product o2) {
-        if (SortField.description == sortField) {
-            return SortOrder.asc == sortOrder ?
+        if (SortField.DESCRIPTION == sortField) {
+            return SortOrder.ASC == sortOrder ?
                     o1.getDescription().compareTo(o2.getDescription())
                     : o2.getDescription().compareTo(o1.getDescription());
         }
-        return SortOrder.asc == sortOrder ?
+        return SortOrder.ASC == sortOrder ?
                 o1.getPrice().compareTo(o2.getPrice())
                 : o2.getPrice().compareTo(o1.getPrice());
     }

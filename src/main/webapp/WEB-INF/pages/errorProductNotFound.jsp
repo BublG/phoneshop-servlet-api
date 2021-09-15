@@ -5,5 +5,6 @@
 
 
 <tags:master pageTitle="Product not found">
+    <a class="back-link" href="${pageContext.request.contextPath}/products">Home</a>
     <h1>${pageContext.exception.message}</h1>
 </tags:master>

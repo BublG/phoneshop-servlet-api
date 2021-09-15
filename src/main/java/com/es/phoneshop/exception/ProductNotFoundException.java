@@ -4,7 +4,8 @@ public class ProductNotFoundException extends RuntimeException {
 
     private final long id;
 
-    public ProductNotFoundException(long id) {
+    public ProductNotFoundException(String message, long id) {
+        super(message);
         this.id = id;
     }
 
@@ -14,6 +15,6 @@ public class ProductNotFoundException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return "Product with id " + id + " not found";
+        return super.getMessage() + " (id = " + id + " )";
     }
 }

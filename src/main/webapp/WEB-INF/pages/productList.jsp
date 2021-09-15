@@ -18,13 +18,21 @@
             <td>Image</td>
             <td>
                 Description
-                <tags:sortLink sort="description" order="asc">&#129045;</tags:sortLink>
-                <tags:sortLink sort="description" order="desc">&#129047;</tags:sortLink>
+                <tags:sortLink sort="description" order="asc">
+                    <img width="10px" height="17px" src="${pageContext.servletContext.contextPath}/images/long-arrow-alt-up-solid.svg">
+                </tags:sortLink>
+                <tags:sortLink sort="description" order="desc">
+                    <img width="10px" height="17px" src="${pageContext.servletContext.contextPath}/images/long-arrow-alt-down-solid.svg">
+                </tags:sortLink>
             </td>
             <td class="price">
                 Price
-                <tags:sortLink sort="price" order="asc">&#129045;</tags:sortLink>
-                <tags:sortLink sort="price" order="desc">&#129047;</tags:sortLink>
+                <tags:sortLink sort="price" order="asc">
+                    <img width="10px" height="17px" src="${pageContext.servletContext.contextPath}/images/long-arrow-alt-up-solid.svg">
+                </tags:sortLink>
+                <tags:sortLink sort="price" order="desc">
+                    <img width="10px" height="17px" src="${pageContext.servletContext.contextPath}/images/long-arrow-alt-down-solid.svg">
+                </tags:sortLink>
             </td>
         </tr>
         </thead>

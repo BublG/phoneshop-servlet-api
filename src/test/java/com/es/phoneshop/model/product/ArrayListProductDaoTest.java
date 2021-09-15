@@ -3,6 +3,7 @@ package com.es.phoneshop.model.product;
 import com.es.phoneshop.dao.impl.ArrayListProductDao;
 import com.es.phoneshop.dao.ProductDao;
 import com.es.phoneshop.exception.ProductNotFoundException;
+import com.es.phoneshop.model.Product;
 import org.junit.Before;
 import org.junit.Test;
 

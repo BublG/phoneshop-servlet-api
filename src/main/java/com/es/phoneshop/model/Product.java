@@ -1,6 +1,6 @@
-package com.es.phoneshop.model.product;
+package com.es.phoneshop.model;
 
-import com.es.phoneshop.model.priceHistory.PriceHistory;
+import com.es.phoneshop.model.PriceHistory;
 
 import java.math.BigDecimal;
 import java.util.Currency;

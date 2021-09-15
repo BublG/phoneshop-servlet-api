@@ -3,8 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
-<jsp:useBean id="product" type="com.es.phoneshop.model.product.Product" scope="request"/>
+<jsp:useBean id="product" type="com.es.phoneshop.model.Product" scope="request"/>
 <tags:master pageTitle="Product Price History">
+    <a class="back-link" onclick="history.back()">Back</a>
     <h1>Price History</h1>
     <h3>${product.description}</h3>
     <table>

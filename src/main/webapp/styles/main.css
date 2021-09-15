@@ -34,10 +34,8 @@ td {
     color: black;
 }
 
-.current-link {
-    color: black;
-    text-decoration: none;
-    font-weight: bold;
+.current-sort {
+    background-color: yellow;
 }
 
 .price {
@@ -58,10 +56,21 @@ html.product-list, body.product-list {
     flex-direction: column;
     height: 100%;
 }
+
 .content {
     flex: 1 0 auto;
 }
+
 .footer {
     flex: 0 0 auto;
     text-align: center;
+}
+
+.back-link {
+    text-decoration: underline;
+}
+
+.back-link:hover {
+    color: blue;
+    cursor: pointer;
 }

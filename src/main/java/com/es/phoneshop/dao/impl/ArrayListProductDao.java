@@ -4,11 +4,12 @@ import com.es.phoneshop.comparator.ProductDescriptionAndPriceComparator;
 import com.es.phoneshop.comparator.ProductSearchComparator;
 import com.es.phoneshop.dao.ProductDao;
 import com.es.phoneshop.exception.ProductNotFoundException;
-import com.es.phoneshop.model.product.Product;
+import com.es.phoneshop.model.Product;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -28,12 +29,10 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     public static synchronized ProductDao getInstance() {
-        ProductDao localInstance = instance;
-        if (localInstance == null) {
+        if (instance == null) {
             synchronized (ArrayListProductDao.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new ArrayListProductDao();
+                if (instance == null) {
+                    instance = new ArrayListProductDao();
                 }
             }
         }
@@ -47,7 +46,7 @@ public class ArrayListProductDao implements ProductDao {
             return products.stream()
                     .filter(product -> id.equals(product.getId()))
                     .findAny()
-                    .orElseThrow(() -> new ProductNotFoundException(id));
+                    .orElseThrow(() -> new ProductNotFoundException("Product with given id not found", id));
         } finally {
             readLock.unlock();
         }
@@ -65,7 +64,7 @@ public class ArrayListProductDao implements ProductDao {
                     .sorted(new ProductSearchComparator(words))
                     .collect(Collectors.toList());
             if (sortField != null) {
-                list.sort(new ProductDescriptionAndPriceComparator(sortField, sortOrder));
+                list.sort(new ProductDescriptionAndPriceComparator(sortField.toUpperCase(), sortOrder.toUpperCase()));
             }
             return list;
         } finally {
