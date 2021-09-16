@@ -24,6 +24,20 @@ td {
     vertical-align: top;
 }
 
+.sort-link {
+    text-decoration: none;
+    margin-right: 2px;
+    color: gray;
+}
+
+.sort-link:hover {
+    color: black;
+}
+
+.current-sort {
+    background-color: yellow;
+}
+
 .price {
     text-align: right;
 }
@@ -33,6 +47,30 @@ img.product-tile {
 }
 
 /* Page specific styles */
-body.product-list {
+html.product-list, body.product-list {
+    height: 100%;
+}
 
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.content {
+    flex: 1 0 auto;
+}
+
+.footer {
+    flex: 0 0 auto;
+    text-align: center;
+}
+
+.back-link {
+    text-decoration: underline;
+}
+
+.back-link:hover {
+    color: blue;
+    cursor: pointer;
 }
