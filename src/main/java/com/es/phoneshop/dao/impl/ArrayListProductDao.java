@@ -28,7 +28,7 @@ public class ArrayListProductDao implements ProductDao {
         products = new ArrayList<>();
     }
 
-    public static synchronized ProductDao getInstance() {
+    public static ProductDao getInstance() {
         if (instance == null) {
             synchronized (ArrayListProductDao.class) {
                 if (instance == null) {
