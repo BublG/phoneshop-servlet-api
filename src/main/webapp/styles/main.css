@@ -74,3 +74,15 @@ html.product-list, body.product-list {
     color: blue;
     cursor: pointer;
 }
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}
+
+.quantity {
+    margin-top: 10px;
+}

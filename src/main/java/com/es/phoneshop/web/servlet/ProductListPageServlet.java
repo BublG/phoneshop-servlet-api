@@ -1,5 +1,7 @@
 package com.es.phoneshop.web.servlet;
 
+import com.es.phoneshop.cartService.CartService;
+import com.es.phoneshop.cartService.impl.DefaultCartService;
 import com.es.phoneshop.dao.impl.ArrayListProductDao;
 import com.es.phoneshop.dao.ProductDao;
 import com.es.phoneshop.enums.SortField;
@@ -11,15 +13,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Locale;
 
 public class ProductListPageServlet extends HttpServlet {
     private ProductDao productDao;
+    private CartService cartService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         productDao = ArrayListProductDao.getInstance();
+        cartService = DefaultCartService.getInstance();
     }
 
     @Override
@@ -28,6 +31,7 @@ public class ProductListPageServlet extends HttpServlet {
         String sortField = request.getParameter("sort");
         String sortOrder = request.getParameter("order");
         request.setAttribute("products", productDao.findProducts(query, sortField, sortOrder));
+        request.setAttribute("cart", cartService.getCart(request));
         request.getRequestDispatcher("/WEB-INF/pages/productList.jsp").forward(request, response);
     }
 }

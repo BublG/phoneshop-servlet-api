@@ -1,11 +1,10 @@
 package com.es.phoneshop.model;
 
-import com.es.phoneshop.model.PriceHistory;
-
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Product {
     private Long id;
@@ -113,5 +112,21 @@ public class Product {
 
     public void addRecordToPriceHistory(PriceHistory priceHistory) {
         priceHistoryList.add(0, priceHistory);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return stock == product.stock && id.equals(product.id) && code.equals(product.code)
+                && description.equals(product.description) && price.equals(product.price)
+                && currency.equals(product.currency) && imageUrl.equals(product.imageUrl)
+                && priceHistoryList.equals(product.priceHistoryList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, code, description, price, currency, stock, imageUrl, priceHistoryList);
     }
 }
