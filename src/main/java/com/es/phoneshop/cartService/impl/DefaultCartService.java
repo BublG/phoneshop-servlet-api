@@ -67,10 +67,12 @@ public class DefaultCartService implements CartService {
 
     @Override
     public int getCurrentQuantity(Cart cart, long productId) {
-        return cart.getItems().stream()
-                .filter(item -> item.getProduct().getId().equals(productId))
-                .findAny()
-                .map(CartItem::getQuantity)
-                .orElse(0);
+        synchronized (cart) {
+            return cart.getItems().stream()
+                    .filter(item -> item.getProduct().getId().equals(productId))
+                    .findAny()
+                    .map(CartItem::getQuantity)
+                    .orElse(0);
+        }
     }
 }

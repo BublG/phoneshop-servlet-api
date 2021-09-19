@@ -119,10 +119,7 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return stock == product.stock && id.equals(product.id) && code.equals(product.code)
-                && description.equals(product.description) && price.equals(product.price)
-                && currency.equals(product.currency) && imageUrl.equals(product.imageUrl)
-                && priceHistoryList.equals(product.priceHistoryList);
+        return id.equals(product.id);
     }
 
     @Override

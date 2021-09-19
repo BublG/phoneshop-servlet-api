@@ -5,7 +5,7 @@
 
 <jsp:useBean id="product" type="com.es.phoneshop.model.Product" scope="request"/>
 <tags:master pageTitle="Product Price History">
-    <a class="back-link" onclick="history.back()">Back</a>
+    <a class="back-link" href="${pageContext.servletContext.contextPath}/products">Home</a>
     <h1>Price History</h1>
     <h3>${product.description}</h3>
     <table>

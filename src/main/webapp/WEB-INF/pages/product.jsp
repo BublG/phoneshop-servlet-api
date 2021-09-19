@@ -11,7 +11,7 @@
     </p>
     <c:if test="${not empty param.message and empty error}">
         <div class="success">
-            ${param.message}
+                ${param.message}
         </div>
     </c:if>
     <c:if test="${not empty error}">
@@ -22,27 +22,27 @@
     <p>
             ${product.description}
     </p>
+    <table>
+        <tr>
+            <td>Image</td>
+            <td>
+                <img src="${product.imageUrl}">
+            </td>
+        </tr>
+        <tr>
+            <td>Code</td>
+            <td>${product.code}</td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td>${product.price}</td>
+        </tr>
+        <tr>
+            <td>Stock</td>
+            <td>${product.stock}</td>
+        </tr>
+    </table>
     <form method="post">
-        <table>
-            <tr>
-                <td>Image</td>
-                <td>
-                    <img src="${product.imageUrl}">
-                </td>
-            </tr>
-            <tr>
-                <td>Code</td>
-                <td>${product.code}</td>
-            </tr>
-            <tr>
-                <td>Price</td>
-                <td>${product.price}</td>
-            </tr>
-            <tr>
-                <td>Stock</td>
-                <td>${product.stock}</td>
-            </tr>
-        </table>
         <div class="quantity">
             <span>Quantity:</span>
             <span>
