@@ -2,10 +2,8 @@ package com.es.phoneshop.web.servlet;
 
 import com.es.phoneshop.cartService.CartService;
 import com.es.phoneshop.cartService.impl.DefaultCartService;
-import com.es.phoneshop.dao.impl.ArrayListProductDao;
 import com.es.phoneshop.dao.ProductDao;
-import com.es.phoneshop.enums.SortField;
-import com.es.phoneshop.enums.SortOrder;
+import com.es.phoneshop.dao.impl.ArrayListProductDao;
 import com.es.phoneshop.recentlyViewedListService.RecentlyViewedListService;
 import com.es.phoneshop.recentlyViewedListService.impl.DefaultRecentlyViewedListService;
 

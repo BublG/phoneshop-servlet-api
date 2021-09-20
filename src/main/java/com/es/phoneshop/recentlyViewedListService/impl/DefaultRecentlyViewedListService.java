@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Deque;
 
 public class DefaultRecentlyViewedListService implements RecentlyViewedListService {
-    private static final String RECENTLY_VIEWED_LIST_SESSION_ATTRIBUTE =
+    public static final String RECENTLY_VIEWED_LIST_SESSION_ATTRIBUTE =
             DefaultRecentlyViewedListService.class.getName() + ".recently_viewed_list";
     private static volatile RecentlyViewedListService instance;
 
@@ -42,7 +42,7 @@ public class DefaultRecentlyViewedListService implements RecentlyViewedListServi
     @Override
     public void add(RecentlyViewedList recentlyViewedList, Product product) {
         synchronized (recentlyViewedList) {
-            Deque<Product> recentlyViewedProducts = recentlyViewedList.getRecentlyViewedProducts();;
+            Deque<Product> recentlyViewedProducts = recentlyViewedList.getRecentlyViewedProducts();
             recentlyViewedProducts.removeIf(p -> p.getId().equals(product.getId()));
             recentlyViewedProducts.addFirst(product);
             if (recentlyViewedProducts.size() > 3) {

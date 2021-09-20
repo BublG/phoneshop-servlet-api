@@ -14,6 +14,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -30,6 +31,8 @@ public class ProductPriceHistoryServletTest {
     private RequestDispatcher requestDispatcher;
     @Mock
     private ServletConfig servletConfig;
+    @Mock
+    private HttpSession session;
 
     private final ProductDao productDao = ArrayListProductDao.getInstance();
     private final ProductPriceHistoryServlet servlet = new ProductPriceHistoryServlet();
@@ -40,6 +43,7 @@ public class ProductPriceHistoryServletTest {
         productDao.save(new Product());
         when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
         when(request.getParameter("id")).thenReturn("0");
+        when(request.getSession()).thenReturn(session);
     }
 
     @Test
@@ -48,6 +52,7 @@ public class ProductPriceHistoryServletTest {
 
         verify(request).getParameter("id");
         verify(request).setAttribute(eq("product"), any());
+        verify(request).setAttribute(eq("recentlyViewedList"), any());
         verify(requestDispatcher).forward(request, response);
     }
 }

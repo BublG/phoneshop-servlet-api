@@ -13,8 +13,8 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class ArrayListProductDaoTest {
-    private ProductDao productDao;
     private final Currency usd = Currency.getInstance("USD");
+    private ProductDao productDao;
 
     @Before
     public void setup() {
