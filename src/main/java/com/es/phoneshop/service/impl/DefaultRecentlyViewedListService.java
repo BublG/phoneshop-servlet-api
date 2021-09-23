@@ -1,8 +1,8 @@
-package com.es.phoneshop.recentlyViewedListService.impl;
+package com.es.phoneshop.service.impl;
 
 import com.es.phoneshop.model.Product;
 import com.es.phoneshop.model.RecentlyViewedList;
-import com.es.phoneshop.recentlyViewedListService.RecentlyViewedListService;
+import com.es.phoneshop.service.RecentlyViewedListService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Deque;

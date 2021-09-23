@@ -1,6 +1,6 @@
-package com.es.phoneshop.cartService.impl;
+package com.es.phoneshop.service.impl;
 
-import com.es.phoneshop.cartService.CartService;
+import com.es.phoneshop.service.CartService;
 import com.es.phoneshop.dao.ProductDao;
 import com.es.phoneshop.dao.impl.ArrayListProductDao;
 import com.es.phoneshop.exception.OutOfStockException;

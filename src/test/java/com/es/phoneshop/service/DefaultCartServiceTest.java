@@ -1,6 +1,7 @@
-package com.es.phoneshop.cartService;
+package com.es.phoneshop.service;
 
-import com.es.phoneshop.cartService.impl.DefaultCartService;
+import com.es.phoneshop.service.CartService;
+import com.es.phoneshop.service.impl.DefaultCartService;
 import com.es.phoneshop.exception.OutOfStockException;
 import com.es.phoneshop.model.Cart;
 import com.es.phoneshop.model.Product;

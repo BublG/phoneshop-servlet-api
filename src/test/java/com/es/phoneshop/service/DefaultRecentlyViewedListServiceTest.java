@@ -1,8 +1,9 @@
-package com.es.phoneshop.recentlyViewedListService;
+package com.es.phoneshop.service;
 
 import com.es.phoneshop.model.Product;
 import com.es.phoneshop.model.RecentlyViewedList;
-import com.es.phoneshop.recentlyViewedListService.impl.DefaultRecentlyViewedListService;
+import com.es.phoneshop.service.RecentlyViewedListService;
+import com.es.phoneshop.service.impl.DefaultRecentlyViewedListService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

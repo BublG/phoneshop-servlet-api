@@ -1,4 +1,4 @@
-package com.es.phoneshop.recentlyViewedListService;
+package com.es.phoneshop.service;
 
 import com.es.phoneshop.model.Product;
 import com.es.phoneshop.model.RecentlyViewedList;
