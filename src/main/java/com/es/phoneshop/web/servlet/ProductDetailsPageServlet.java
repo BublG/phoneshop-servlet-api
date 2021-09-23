@@ -60,7 +60,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
             String s = format.format(quantity).replaceAll((char) 160 + "", "");
             // NumberFormat in russian locale adds a No-Break-Space symbol with code 160 when format, like
             // 1000 -> 1 000
-            if (!s.equals(quantityStr)) {
+            if (!s.equals(quantityStr) || quantity <= 0) {
                 throw new ParseException("", 0);
             }
         } catch (ParseException e) {
