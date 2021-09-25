@@ -40,6 +40,15 @@
     <servlet-name>priceHistory</servlet-name>
     <url-pattern>/priceHistory</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>cart</servlet-name>
+    <servlet-class>com.es.phoneshop.web.servlet.CartPageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>cart</servlet-name>
+    <url-pattern>/cart</url-pattern>
+  </servlet-mapping>
   
   <error-page>
     <exception-type>com.es.phoneshop.exception.ProductNotFoundException</exception-type>

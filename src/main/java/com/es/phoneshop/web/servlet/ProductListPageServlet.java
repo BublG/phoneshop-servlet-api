@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.ATTRIBUTE_CART;
+import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.ATTRIBUTE_RECENTLY_VIEWED_LIST;
+
 public class ProductListPageServlet extends HttpServlet {
     private ProductDao productDao;
     private CartService cartService;
@@ -37,8 +40,8 @@ public class ProductListPageServlet extends HttpServlet {
         String sortField = request.getParameter(PARAM_SORT);
         String sortOrder = request.getParameter(PARAM_ORDER);
         request.setAttribute(ATTRIBUTE_PRODUCTS, productDao.findProducts(query, sortField, sortOrder));
-        request.setAttribute(ProductDetailsPageServlet.ATTRIBUTE_CART, cartService.getCart(request));
-        request.setAttribute(ProductDetailsPageServlet.ATTRIBUTE_RECENTLY_VIEWED_LIST, recentlyViewedListService.getRecentlyViewedList(request));
+        request.setAttribute(ATTRIBUTE_CART, cartService.getCart(request));
+        request.setAttribute(ATTRIBUTE_RECENTLY_VIEWED_LIST, recentlyViewedListService.getRecentlyViewedList(request));
         request.getRequestDispatcher("/WEB-INF/pages/productList.jsp").forward(request, response);
     }
 }

@@ -9,7 +9,7 @@
     <p>
         Cart: ${cart}
     </p>
-    <c:if test="${not empty param.message and empty error}">
+    <c:if test="${not empty param.message}">
         <div class="success">
                 ${param.message}
         </div>
@@ -42,7 +42,7 @@
             <td>${product.stock}</td>
         </tr>
     </table>
-    <form method="post">
+    <form method="post" action="${pageContext.servletContext.contextPath}/products/${product.id}">
         <div class="quantity">
             <span>Quantity:</span>
             <span>

@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Locale;
 
 public class ProductDetailsPageServlet extends HttpServlet {
     private ProductDao productDao;
@@ -28,7 +29,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
     public static final String ATTRIBUTE_CART = "cart";
     public static final String ATTRIBUTE_RECENTLY_VIEWED_LIST = "recentlyViewedList";
     public static final String ATTRIBUTE_ERROR = "error";
-    private static final String PARAM_QUANTITY = "quantity";
+    public static final String PARAM_QUANTITY = "quantity";
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -84,5 +85,17 @@ public class ProductDetailsPageServlet extends HttpServlet {
 
     private long parseProductId(HttpServletRequest request) {
         return Long.parseLong(request.getPathInfo().substring(1));
+    }
+
+    public static int parseQuantity(String quantityStr, Locale locale) throws ParseException {
+        NumberFormat format = NumberFormat.getInstance(locale);
+        int quantity = format.parse(quantityStr).intValue();
+        String s = format.format(quantity).replaceAll((char) 160 + "", "");
+        // NumberFormat in russian locale adds a No-Break-Space symbol with code 160 when format, like
+        // 1000 -> 1 000
+        if (!s.equals(quantityStr) || quantity <= 0) {
+            throw new ParseException("", 0);
+        }
+        return quantity;
     }
 }
