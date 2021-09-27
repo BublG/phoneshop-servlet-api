@@ -9,7 +9,6 @@ import com.es.phoneshop.model.Product;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -17,18 +16,18 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ArrayListProductDao implements ProductDao {
+    private static volatile ProductDao instance;
     private final List<Product> products;
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
     private final Lock readLock = lock.readLock();
     private final Lock writeLock = lock.writeLock();
     private long maxId;
-    private static volatile ProductDao instance;
 
     private ArrayListProductDao() {
         products = new ArrayList<>();
     }
 
-    public static synchronized ProductDao getInstance() {
+    public static ProductDao getInstance() {
         if (instance == null) {
             synchronized (ArrayListProductDao.class) {
                 if (instance == null) {

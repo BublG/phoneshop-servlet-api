@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class PriceHistory {
-
     public static final String datePattern = "d MMM yyyy";
     private Date date;
     private BigDecimal price;

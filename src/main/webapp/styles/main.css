@@ -27,11 +27,6 @@ td {
 .sort-link {
     text-decoration: none;
     margin-right: 2px;
-    color: gray;
-}
-
-.sort-link:hover {
-    color: black;
 }
 
 .current-sort {
@@ -64,6 +59,12 @@ html.product-list, body.product-list {
 .footer {
     flex: 0 0 auto;
     text-align: center;
+    border-top: 1px solid black;
+    margin-top: 5px;
+}
+
+.copyright {
+    margin-top: 10px;
 }
 
 .back-link {
@@ -73,4 +74,20 @@ html.product-list, body.product-list {
 .back-link:hover {
     color: blue;
     cursor: pointer;
+}
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}
+
+.quantity {
+    margin-top: 10px;
+}
+
+.recentlyViewedTable {
+    margin: auto;
 }

@@ -1,7 +1,6 @@
-package com.es.phoneshop.model.product;
+package com.es.phoneshop.dao;
 
 import com.es.phoneshop.dao.impl.ArrayListProductDao;
-import com.es.phoneshop.dao.ProductDao;
 import com.es.phoneshop.exception.ProductNotFoundException;
 import com.es.phoneshop.model.Product;
 import org.junit.Before;
@@ -14,13 +13,12 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class ArrayListProductDaoTest {
+    private final Currency usd = Currency.getInstance("USD");
     private ProductDao productDao;
-    private Currency usd;
 
     @Before
     public void setup() {
         productDao = ArrayListProductDao.getInstance();
-        usd = Currency.getInstance("USD");
     }
 
     @Test

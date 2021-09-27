@@ -14,7 +14,11 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Currency;
+import java.util.Locale;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
@@ -22,6 +26,8 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProductDetailsPageServletTest {
+    private final ProductDao productDao = ArrayListProductDao.getInstance();
+    private final ProductDetailsPageServlet servlet = new ProductDetailsPageServlet();
     @Mock
     private HttpServletRequest request;
     @Mock
@@ -30,16 +36,17 @@ public class ProductDetailsPageServletTest {
     private RequestDispatcher requestDispatcher;
     @Mock
     private ServletConfig servletConfig;
-
-    private final ProductDao productDao = ArrayListProductDao.getInstance();
-    private final ProductDetailsPageServlet servlet = new ProductDetailsPageServlet();
+    @Mock
+    private HttpSession session;
 
     @Before
     public void setup() throws ServletException {
         servlet.init(servletConfig);
-        productDao.save(new Product());
+        Currency usd = Currency.getInstance("USD");
+        productDao.save(new Product("TEST", "Apple iPhone 6", new BigDecimal(1000), usd, 30, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Apple/Apple%20iPhone%206.jpg"));
         when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
         when(request.getPathInfo()).thenReturn("/0");
+        when(request.getSession()).thenReturn(session);
     }
 
     @Test
@@ -48,6 +55,27 @@ public class ProductDetailsPageServletTest {
 
         verify(request).getPathInfo();
         verify(request).setAttribute(eq("product"), any());
+        verify(request).setAttribute(eq("cart"), any());
+        verify(request).setAttribute(eq("recentlyViewedList"), any());
         verify(requestDispatcher).forward(request, response);
+    }
+
+    @Test
+    public void testDoPost() throws ServletException, IOException {
+        when(request.getLocale()).thenReturn(Locale.getDefault());
+        when(request.getParameter("quantity")).thenReturn("a");
+        servlet.doPost(request, response);
+
+        verify(request).setAttribute(eq("error"), eq("Not a number"));
+
+        when(request.getParameter("quantity")).thenReturn("50");
+        servlet.doPost(request, response);
+
+        verify(request).setAttribute(eq("error"), eq("Not enough stock, available: " + 30
+                + ".\nYou already have: " + 0));
+
+        when(request.getParameter("quantity")).thenReturn("1");
+        servlet.doPost(request, response);
+        verify(response).sendRedirect(any());
     }
 }

@@ -8,6 +8,9 @@
     <p>
         Welcome to Expert-Soft training!
     </p>
+    <p>
+        Cart: ${cart}
+    </p>
     <form>
         <input name="query" value="${param.query}">
         <button>Search</button>
