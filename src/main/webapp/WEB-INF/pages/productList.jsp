@@ -10,6 +10,7 @@
     <p>
         Welcome to Expert-Soft training!
     </p>
+    <a class="back-link" href="${pageContext.servletContext.contextPath}/cart">Cart</a>
     <c:if test="${not empty param.message}">
         <div class="success">
                 ${param.message}

@@ -5,6 +5,7 @@
 
 <jsp:useBean id="cart" type="com.es.phoneshop.model.Cart" scope="request"/>
 <tags:master pageTitle="Cart">
+    <a class="back-link" href="${pageContext.servletContext.contextPath}/products">Home</a>
     <c:if test="${not empty param.message}">
         <div class="success">
             ${param.message}
@@ -51,7 +52,8 @@
                         <fmt:formatNumber value="${cartItem.quantity}" var="quantity"/>
                         <c:set var="error" value="${errors[cartItem.product.id]}"/>
                         <input name="quantity"
-                               value="${not empty error ? paramValues.quantity[status.index] : quantity}">
+                               value="${not empty error ? paramValues.quantity[status.index] : quantity}"
+                               type="number" min="1">
                         <c:if test="${not empty error}">
                             <div class="error">
                                     ${error}
