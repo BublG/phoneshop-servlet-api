@@ -6,9 +6,6 @@
 <jsp:useBean id="product" type="com.es.phoneshop.model.Product" scope="request"/>
 <tags:master pageTitle="Product Details">
     <a class="back-link" href="${pageContext.servletContext.contextPath}/products">Home</a>
-    <p>
-        Cart: ${cart}
-    </p>
     <c:if test="${not empty param.message}">
         <div class="success">
                 ${param.message}

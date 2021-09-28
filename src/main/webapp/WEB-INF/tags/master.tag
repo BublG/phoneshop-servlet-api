@@ -13,10 +13,15 @@
 <div class="wrapper">
     <div class="content">
         <header>
-            <a href="${pageContext.servletContext.contextPath}">
-                <img src="${pageContext.servletContext.contextPath}/images/logo.svg"/>
-                PhoneShop
-            </a>
+            <div class="header">
+                <a href="${pageContext.servletContext.contextPath}">
+                    <img src="${pageContext.servletContext.contextPath}/images/logo.svg"/>
+                    PhoneShop
+                </a>
+            </div>
+            <div class="minicart">
+                <jsp:include page="/cart/minicart"/>
+            </div>
         </header>
         <main>
             <jsp:doBody/>

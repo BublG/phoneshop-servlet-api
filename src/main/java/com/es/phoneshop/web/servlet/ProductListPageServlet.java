@@ -1,5 +1,7 @@
 package com.es.phoneshop.web.servlet;
 
+import com.es.phoneshop.exception.OutOfStockException;
+import com.es.phoneshop.model.Cart;
 import com.es.phoneshop.service.CartService;
 import com.es.phoneshop.service.impl.DefaultCartService;
 import com.es.phoneshop.dao.ProductDao;
@@ -13,9 +15,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
-import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.ATTRIBUTE_CART;
-import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.ATTRIBUTE_RECENTLY_VIEWED_LIST;
+import static com.es.phoneshop.web.servlet.CartPageServlet.ATTRIBUTE_ERRORS;
+import static com.es.phoneshop.web.servlet.CartPageServlet.PARAM_PRODUCT_ID;
+import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.*;
 
 public class ProductListPageServlet extends HttpServlet {
     private ProductDao productDao;
@@ -25,6 +31,7 @@ public class ProductListPageServlet extends HttpServlet {
     private static final String PARAM_QUERY = "query";
     private static final String PARAM_SORT = "sort";
     private static final String PARAM_ORDER = "order";
+    private static final String PRODUCT_LIST_JSP = "/WEB-INF/pages/productList.jsp";
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -42,6 +49,34 @@ public class ProductListPageServlet extends HttpServlet {
         request.setAttribute(ATTRIBUTE_PRODUCTS, productDao.findProducts(query, sortField, sortOrder));
         request.setAttribute(ATTRIBUTE_CART, cartService.getCart(request));
         request.setAttribute(ATTRIBUTE_RECENTLY_VIEWED_LIST, recentlyViewedListService.getRecentlyViewedList(request));
-        request.getRequestDispatcher("/WEB-INF/pages/productList.jsp").forward(request, response);
+        request.getRequestDispatcher(PRODUCT_LIST_JSP).forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        long productId = Long.parseLong(request.getParameter(PARAM_PRODUCT_ID));
+        final Map<Long, String> errors = new HashMap<>();
+        int quantity;
+        try {
+            quantity = parseQuantity(request.getParameter(PARAM_QUANTITY), request.getLocale());
+        } catch (ParseException e) {
+            errors.put(productId, "Not a number");
+            request.setAttribute(ATTRIBUTE_ERRORS, errors);
+            doGet(request, response);
+            return;
+        }
+
+        Cart cart = cartService.getCart(request);
+        try {
+            cartService.add(cart, productId, quantity);
+        } catch (OutOfStockException e) {
+            errors.put(productId, String.format("Not enough stock, available: %d. You already have: %d",
+                    e.getStockAvailable(), cartService.getCurrentQuantity(cart, productId)));
+            request.setAttribute(ATTRIBUTE_ERRORS, errors);
+            doGet(request, response);
+            return;
+        }
+        response.sendRedirect(String.format("%s/products?message=Added to cart successfully",
+                request.getContextPath()));
     }
 }

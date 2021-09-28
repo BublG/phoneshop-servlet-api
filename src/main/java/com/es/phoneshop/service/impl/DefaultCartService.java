@@ -9,7 +9,10 @@ import com.es.phoneshop.model.Product;
 import com.es.phoneshop.service.CartService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Optional;
+import java.util.function.BinaryOperator;
 
 public class DefaultCartService implements CartService {
     public static final String CART_SESSION_ATTRIBUTE = DefaultCartService.class.getName() + ".cart";
@@ -59,6 +62,7 @@ public class DefaultCartService implements CartService {
                 cart.getItems().add(new CartItem(product, quantity));
             }
         }
+        recalculateCart(cart);
     }
 
     @Override
@@ -73,6 +77,13 @@ public class DefaultCartService implements CartService {
             }
             cartItem.setQuantity(quantity);
         }
+        recalculateCart(cart);
+    }
+
+    @Override
+    public void delete(Cart cart, long productId) {
+        cart.getItems().removeIf(cartItem -> cartItem.getProduct().getId().equals(productId));
+        recalculateCart(cart);
     }
 
     @Override
@@ -84,5 +95,15 @@ public class DefaultCartService implements CartService {
                     .map(CartItem::getQuantity)
                     .orElse(0);
         }
+    }
+
+    private void recalculateCart(Cart cart) {
+        cart.setTotalQuantity(cart.getItems().stream()
+                .map(CartItem::getQuantity)
+                .reduce(0, Integer::sum));
+        cart.setTotalCost(cart.getItems().stream()
+                .map(cartItem -> cartItem.getProduct().getPrice()
+                        .multiply(new BigDecimal(cartItem.getQuantity())))
+                .reduce(new BigDecimal(0), BigDecimal::add));
     }
 }

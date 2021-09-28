@@ -7,7 +7,7 @@
 <tags:master pageTitle="Cart">
     <c:if test="${not empty param.message}">
         <div class="success">
-                Success
+            ${param.message}
         </div>
     </c:if>
     <c:if test="${not empty errors}">
@@ -50,13 +50,20 @@
                     <td>
                         <fmt:formatNumber value="${cartItem.quantity}" var="quantity"/>
                         <c:set var="error" value="${errors[cartItem.product.id]}"/>
-                        <input name="quantity" value="${not empty error ? paramValues.quantity[status.index] : quantity}">
+                        <input name="quantity"
+                               value="${not empty error ? paramValues.quantity[status.index] : quantity}">
                         <c:if test="${not empty error}">
                             <div class="error">
                                     ${error}
                             </div>
                         </c:if>
                         <input type="hidden" name="productId" value="${cartItem.product.id}">
+                    </td>
+                    <td>
+                        <button form="delete"
+                                formaction="${pageContext.servletContext.contextPath}/cart/deleteCartItem/${cartItem.product.id}">
+                            Delete
+                        </button>
                     </td>
                 </tr>
             </c:forEach>
@@ -65,4 +72,5 @@
             <button>Update</button>
         </p>
     </form>
+    <form id="delete" method="post"></form>
 </tags:master>
