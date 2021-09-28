@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Locale;
 
+import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -54,27 +55,30 @@ public class ProductDetailsPageServletTest {
         servlet.doGet(request, response);
 
         verify(request).getPathInfo();
-        verify(request).setAttribute(eq("product"), any());
-        verify(request).setAttribute(eq("cart"), any());
-        verify(request).setAttribute(eq("recentlyViewedList"), any());
+        verify(request).setAttribute(eq(ATTRIBUTE_PRODUCT), any());
+        verify(request).setAttribute(eq(ATTRIBUTE_RECENTLY_VIEWED_LIST), any());
         verify(requestDispatcher).forward(request, response);
     }
 
     @Test
     public void testDoPost() throws ServletException, IOException {
         when(request.getLocale()).thenReturn(Locale.getDefault());
-        when(request.getParameter("quantity")).thenReturn("a");
+        when(request.getParameter(PARAM_QUANTITY)).thenReturn("a");
         servlet.doPost(request, response);
 
-        verify(request).setAttribute(eq("error"), eq("Not a number"));
+        verify(request).setAttribute(eq(ATTRIBUTE_ERROR), eq("Not a number"));
 
-        when(request.getParameter("quantity")).thenReturn("50");
+        verify(request).setAttribute(eq(ATTRIBUTE_PRODUCT), any());
+        verify(request).setAttribute(eq(ATTRIBUTE_RECENTLY_VIEWED_LIST), any());
+
+        when(request.getParameter(PARAM_QUANTITY)).thenReturn("50");
         servlet.doPost(request, response);
 
-        verify(request).setAttribute(eq("error"), eq("Not enough stock, available: " + 30
-                + ".\nYou already have: " + 0));
+        verify(request).setAttribute(eq(ATTRIBUTE_ERROR), eq("Not enough stock, available: " + 30
+                + ". You already have: " + 0));
 
-        when(request.getParameter("quantity")).thenReturn("1");
+
+        when(request.getParameter(PARAM_QUANTITY)).thenReturn("1");
         servlet.doPost(request, response);
         verify(response).sendRedirect(any());
     }

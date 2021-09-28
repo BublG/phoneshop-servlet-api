@@ -20,7 +20,7 @@ import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.PARAM_QUANT
 
 public class CartPageServlet extends HttpServlet {
     public static final String PARAM_PRODUCT_ID = "productId";
-    private static final String CART_JSP = "/WEB-INF/pages/cart.jsp";
+    public static final String CART_JSP = "/WEB-INF/pages/cart.jsp";
     public static final String ATTRIBUTE_ERRORS = "errors";
     private CartService cartService;
 
