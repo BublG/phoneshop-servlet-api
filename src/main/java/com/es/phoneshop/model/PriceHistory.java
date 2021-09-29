@@ -1,11 +1,13 @@
 package com.es.phoneshop.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class PriceHistory {
+public class PriceHistory implements Serializable {
+    private static final long serialVersionUID = 1L;
     public static final String datePattern = "d MMM yyyy";
     private Date date;
     private BigDecimal price;

@@ -1,5 +1,6 @@
 package com.es.phoneshop.service;
 
+import com.es.phoneshop.dao.impl.ArrayListProductDao;
 import com.es.phoneshop.service.CartService;
 import com.es.phoneshop.service.impl.DefaultCartService;
 import com.es.phoneshop.exception.OutOfStockException;
@@ -35,6 +36,8 @@ public class DefaultCartServiceTest {
     @Before
     public void setup() {
         cartService = DefaultCartService.getInstance();
+        Product product = new Product("TEST", "Apple iPhone 6", new BigDecimal(1000), usd, 30, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Apple/Apple%20iPhone%206.jpg");
+        ArrayListProductDao.getInstance().save(product);
         when(request.getSession()).thenReturn(session);
     }
 
@@ -49,14 +52,35 @@ public class DefaultCartServiceTest {
 
     @Test
     public void testAddToCart() throws OutOfStockException {
-        Product product = new Product("TEST", "Apple iPhone 6", new BigDecimal(1000), usd, 30, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Apple/Apple%20iPhone%206.jpg");
-        product.setId(0L);
+        long productId = 0;
         Cart cart = new Cart();
-        cartService.add(cart, product.getId(), 1);
+        cartService.add(cart, productId, 1);
         assertEquals(1, cart.getItems().size());
 
-        cartService.add(cart, product.getId(), 3);
+        cartService.add(cart, productId, 3);
         assertEquals(1, cart.getItems().size());
         assertEquals(4, cart.getItems().get(0).getQuantity());
+    }
+
+    @Test
+    public void testDelete() throws OutOfStockException {
+        long productId = 0;
+        Cart cart = new Cart();
+        cartService.add(cart, productId, 1);
+        assertEquals(1, cart.getItems().size());
+
+        cartService.delete(cart, 0);
+        assertEquals(0, cart.getItems().size());
+    }
+
+    @Test
+    public void testUpdateCart() throws OutOfStockException {
+        long productId = 0;
+        Cart cart = new Cart();
+        cartService.add(cart, productId, 1);
+        assertEquals(1, cart.getItems().get(0).getQuantity());
+
+        cartService.update(cart, productId, 3);
+        assertEquals(3, cart.getItems().get(0).getQuantity());
     }
 }

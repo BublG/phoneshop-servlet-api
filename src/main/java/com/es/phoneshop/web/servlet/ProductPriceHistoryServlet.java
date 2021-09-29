@@ -12,10 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.es.phoneshop.web.servlet.CartPageServlet.PARAM_PRODUCT_ID;
+import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.ATTRIBUTE_PRODUCT;
+import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.ATTRIBUTE_RECENTLY_VIEWED_LIST;
+
 public class ProductPriceHistoryServlet extends HttpServlet {
     private ProductDao productDao;
     private RecentlyViewedListService recentlyViewedListService;
-    private static final String PARAM_ID = "id";
+    private static final String PRICE_HISTORY_JSP = "/WEB-INF/pages/productPriceHistory.jsp";
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -26,9 +30,9 @@ public class ProductPriceHistoryServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter(PARAM_ID);
-        request.setAttribute(ProductDetailsPageServlet.ATTRIBUTE_PRODUCT, productDao.getProduct(Long.parseLong(id)));
-        request.setAttribute(ProductDetailsPageServlet.ATTRIBUTE_RECENTLY_VIEWED_LIST, recentlyViewedListService.getRecentlyViewedList(request));
-        request.getRequestDispatcher("/WEB-INF/pages/productPriceHistory.jsp").forward(request, response);
+        String id = request.getParameter(PARAM_PRODUCT_ID);
+        request.setAttribute(ATTRIBUTE_PRODUCT, productDao.getProduct(Long.parseLong(id)));
+        request.setAttribute(ATTRIBUTE_RECENTLY_VIEWED_LIST, recentlyViewedListService.getRecentlyViewedList(request));
+        request.getRequestDispatcher(PRICE_HISTORY_JSP).forward(request, response);
     }
 }
