@@ -10,9 +10,7 @@ import com.es.phoneshop.service.CartService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.Optional;
-import java.util.function.BinaryOperator;
 
 public class DefaultCartService implements CartService {
     public static final String CART_SESSION_ATTRIBUTE = DefaultCartService.class.getName() + ".cart";
@@ -50,7 +48,7 @@ public class DefaultCartService implements CartService {
         synchronized (cart) {
             Product product = productDao.getProduct(productId);
             Optional<CartItem> optionalCartItem = cart.getItems().stream()
-                    .filter(item -> item.getProduct().getId().equals(productId))
+                    .filter(item -> item.getProduct() != null && item.getProduct().getId().equals(productId))
                     .findAny();
             int updatedQuantity = quantity + optionalCartItem.map(CartItem::getQuantity).orElse(0);
             if (product.getStock() < updatedQuantity) {
@@ -70,7 +68,7 @@ public class DefaultCartService implements CartService {
         synchronized (cart) {
             Product product = productDao.getProduct(productId);
             CartItem cartItem = cart.getItems().stream()
-                    .filter(item -> item.getProduct().getId().equals(productId))
+                    .filter(item -> item.getProduct() != null && item.getProduct().getId().equals(productId))
                     .findAny().get();
             if (product.getStock() < quantity) {
                 throw new OutOfStockException(product, quantity, product.getStock());
@@ -82,8 +80,11 @@ public class DefaultCartService implements CartService {
 
     @Override
     public void delete(Cart cart, long productId) {
-        cart.getItems().removeIf(cartItem -> cartItem.getProduct().getId().equals(productId));
-        recalculateCart(cart);
+        synchronized (cart) {
+            cart.getItems().removeIf(item -> item.getProduct() != null &&
+                    item.getProduct().getId().equals(productId));
+            recalculateCart(cart);
+        }
     }
 
     @Override

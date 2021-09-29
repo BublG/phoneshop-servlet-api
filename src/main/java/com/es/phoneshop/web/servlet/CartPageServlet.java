@@ -51,7 +51,7 @@ public class CartPageServlet extends HttpServlet {
                     quantity = ProductDetailsPageServlet.parseQuantity(quantities[i], request.getLocale());
                     cartService.update(cart, productId, quantity);
                 } catch (ParseException e) {
-                    errors.put(productId, "Not a number");
+                    errors.put(productId, e.getMessage());
                 } catch (OutOfStockException e1) {
                     errors.put(productId, String.format("Not enough stock, available: %d. You already have: %d",
                             e1.getStockAvailable(), cartService.getCurrentQuantity(cart, productId)));

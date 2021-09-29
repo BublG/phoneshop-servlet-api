@@ -60,7 +60,7 @@ public class ProductListPageServlet extends HttpServlet {
         try {
             quantity = parseQuantity(request.getParameter(PARAM_QUANTITY), request.getLocale());
         } catch (ParseException e) {
-            errors.put(productId, "Not a number");
+            errors.put(productId, e.getMessage());
             request.setAttribute(ATTRIBUTE_ERRORS, errors);
             doGet(request, response);
             return;

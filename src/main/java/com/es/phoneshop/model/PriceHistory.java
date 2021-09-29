@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class PriceHistory implements Serializable {
+    private static final long serialVersionUID = 1L;
     public static final String datePattern = "d MMM yyyy";
     private Date date;
     private BigDecimal price;

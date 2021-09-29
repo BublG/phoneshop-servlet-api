@@ -38,8 +38,11 @@ public class ProductDetailsPageServlet extends HttpServlet {
         String s = format.format(quantity).replaceAll((char) 160 + "", "");
         // NumberFormat in russian locale adds a No-Break-Space symbol with code 160 when format, like
         // 1000 -> 1 000
-        if (!s.equals(quantityStr) || quantity <= 0) {
-            throw new ParseException("", 0);
+        if (!s.equals(quantityStr)) {
+            throw new ParseException("Not a number", 0);
+        }
+        if (quantity < 0) {
+            throw new ParseException("Quantity can't be negative or zero", 0);
         }
         return quantity;
     }
@@ -69,7 +72,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
         try {
             quantity = parseQuantity(request.getParameter(PARAM_QUANTITY), request.getLocale());
         } catch (ParseException e) {
-            request.setAttribute(ATTRIBUTE_ERROR, "Not a number");
+            request.setAttribute(ATTRIBUTE_ERROR, e.getMessage());
             doGet(request, response);
             return;
         }
