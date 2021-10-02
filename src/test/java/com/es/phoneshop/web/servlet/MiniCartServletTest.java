@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.ATTRIBUTE_CART;
+import static com.es.phoneshop.constants.AppConstants.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

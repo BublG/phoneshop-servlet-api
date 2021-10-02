@@ -15,13 +15,9 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.ATTRIBUTE_CART;
-import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.PARAM_QUANTITY;
+import static com.es.phoneshop.constants.AppConstants.*;
 
 public class CartPageServlet extends HttpServlet {
-    public static final String PARAM_PRODUCT_ID = "productId";
-    public static final String CART_JSP = "/WEB-INF/pages/cart.jsp";
-    public static final String ATTRIBUTE_ERRORS = "errors";
     private CartService cartService;
 
     @Override

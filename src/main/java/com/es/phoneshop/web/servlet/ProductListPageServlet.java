@@ -19,19 +19,13 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.es.phoneshop.web.servlet.CartPageServlet.ATTRIBUTE_ERRORS;
-import static com.es.phoneshop.web.servlet.CartPageServlet.PARAM_PRODUCT_ID;
+import static com.es.phoneshop.constants.AppConstants.*;
 import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.*;
 
 public class ProductListPageServlet extends HttpServlet {
     private ProductDao productDao;
     private CartService cartService;
     private RecentlyViewedListService recentlyViewedListService;
-    private static final String ATTRIBUTE_PRODUCTS = "products";
-    private static final String PARAM_QUERY = "query";
-    private static final String PARAM_SORT = "sort";
-    private static final String PARAM_ORDER = "order";
-    private static final String PRODUCT_LIST_JSP = "/WEB-INF/pages/productList.jsp";
 
     @Override
     public void init(ServletConfig config) throws ServletException {

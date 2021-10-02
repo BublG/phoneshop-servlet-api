@@ -21,13 +21,9 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
+import static com.es.phoneshop.constants.AppConstants.*;
+
 public class ProductDetailsPageServlet extends HttpServlet {
-    public static final String ATTRIBUTE_PRODUCT = "product";
-    public static final String ATTRIBUTE_CART = "cart";
-    public static final String ATTRIBUTE_RECENTLY_VIEWED_LIST = "recentlyViewedList";
-    public static final String ATTRIBUTE_ERROR = "error";
-    public static final String PARAM_QUANTITY = "quantity";
-    private static final String PRODUCT_JSP = "/WEB-INF/pages/product.jsp";
     private ProductDao productDao;
     private CartService cartService;
     private RecentlyViewedListService recentlyViewedListService;
