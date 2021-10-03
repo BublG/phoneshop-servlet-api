@@ -7,9 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class Product implements Serializable {
+public class Product extends ItemWithId implements Serializable {
     private static final long serialVersionUID = 1L;
-    private Long id;
     private String code;
     private String description;
     /**
@@ -27,7 +26,8 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(String code, String description, BigDecimal price, Currency currency, int stock, String imageUrl) {
+    public Product(String code, String description, BigDecimal price, Currency currency, int stock,
+                   String imageUrl) {
         this.code = code;
         this.description = description;
         this.price = price;
@@ -37,8 +37,8 @@ public class Product implements Serializable {
         this.priceHistoryList = new LinkedList<>();
     }
 
-    public Product(String code, String description, BigDecimal price, Currency currency, int stock, String imageUrl,
-                   List<PriceHistory> priceHistoryList) {
+    public Product(String code, String description, BigDecimal price, Currency currency, int stock,
+                   String imageUrl, List<PriceHistory> priceHistoryList) {
         this.code = code;
         this.description = description;
         this.price = price;
@@ -46,14 +46,6 @@ public class Product implements Serializable {
         this.stock = stock;
         this.imageUrl = imageUrl;
         this.priceHistoryList = priceHistoryList;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getCode() {
@@ -121,11 +113,11 @@ public class Product implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return id.equals(product.id);
+        return getId().equals(product.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code, description, price, currency, stock, imageUrl, priceHistoryList);
+        return Objects.hash(getId(), code, description, price, currency, stock, imageUrl, priceHistoryList);
     }
 }

@@ -19,6 +19,7 @@ public class AppConstants {
     public static final String PRODUCT_LIST_JSP = "/WEB-INF/pages/productList.jsp";
     public static final String PRICE_HISTORY_JSP = "/WEB-INF/pages/productPriceHistory.jsp";
     public static final String CHECKOUT_JSP = "/WEB-INF/pages/checkout.jsp";
+    public static final String ORDER_OVERVIEW_JSP = "/WEB-INF/pages/orderOverview.jsp";
 
     public static final String ATTRIBUTE_ERRORS = "errors";
     public static final String ATTRIBUTE_PRODUCT = "product";
