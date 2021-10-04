@@ -47,6 +47,7 @@ public class ArrayListProductDaoTest {
 
         assertEquals(product.getId(), savedProduct.getId());
         assertEquals("Xiaomi", productDao.getProduct(product.getId()).getDescription());
+        assertEquals(productDao.findProducts("", null, null).size(), 1);
     }
 
     @Test

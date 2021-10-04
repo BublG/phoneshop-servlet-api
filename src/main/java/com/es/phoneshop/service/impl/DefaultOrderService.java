@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class DefaultOrderService implements OrderService {
     private static volatile OrderService instance;
-    private OrderDao orderDao;
+    private final OrderDao orderDao;
 
     private DefaultOrderService() {
         orderDao = ArrayListOrderDao.getInstance();

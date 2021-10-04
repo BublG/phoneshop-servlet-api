@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class DefaultDosProtectionService implements DosProtectionService {
     private static volatile DosProtectionService instance;
-    private static final long THRESHOLD = 20;
+    public static final int THRESHOLD = 40;
     private final Map<String, Long> countMap;
 
     private DefaultDosProtectionService() {
@@ -40,7 +40,7 @@ public class DefaultDosProtectionService implements DosProtectionService {
         if (count == null) {
             count = 1L;
         } else {
-            if (count > THRESHOLD) {
+            if (count >= THRESHOLD) {
                 return false;
             }
             count++;

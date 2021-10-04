@@ -6,11 +6,6 @@
 <jsp:useBean id="order" type="com.es.phoneshop.model.Order" scope="request"/>
 <tags:master pageTitle="Checkout">
     <a class="back-link" href="${pageContext.servletContext.contextPath}/products">Home</a>
-    <c:if test="${not empty param.message}">
-        <div class="success">
-                ${param.message}
-        </div>
-    </c:if>
     <c:if test="${not empty errors}">
         <div class="error">
             There were errors placing order
@@ -77,7 +72,7 @@
                 <td>
                     <c:set var="error" value="${errors['deliveryDate']}"/>
                     <input type="date" name="deliveryDate"
-                           value="${not empty error ? param.deliveryDate : order.deliveryDate}">
+                           value="${not empty error ? param.deliveryDate : order.deliveryDate}" required>
                     <c:if test="${not empty error}">
                         <div class="error">
                                 ${error}
@@ -88,7 +83,7 @@
             <tr>
                 <td>Payment method<span style="color: red">*</span></td>
                 <td>
-                    <select name="paymentMethod">
+                    <select name="paymentMethod" required>
                         <option></option>
                         <c:forEach var="method" items="${paymentMethods}">
                             <c:if test="${method == order.paymentMethod}">

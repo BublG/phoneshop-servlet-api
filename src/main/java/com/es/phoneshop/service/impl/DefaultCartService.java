@@ -109,7 +109,7 @@ public class DefaultCartService implements CartService {
     }
 
     @Override
-    public void clearCart(Cart cart, HttpServletRequest request) {
+    public void clearCart(HttpServletRequest request) {
         synchronized (request.getSession()) {
             request.getSession().removeAttribute(CART_SESSION_ATTRIBUTE);
         }

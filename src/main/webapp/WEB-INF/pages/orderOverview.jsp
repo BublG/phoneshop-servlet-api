@@ -6,6 +6,11 @@
 <jsp:useBean id="order" type="com.es.phoneshop.model.Order" scope="request"/>
 <tags:master pageTitle="Order overview">
     <a class="back-link" href="${pageContext.servletContext.contextPath}/products">Home</a>
+    <c:if test="${not empty param.message}">
+        <div class="success">
+                ${param.message}
+        </div>
+    </c:if>
     <h1>Order overview</h1>
         <table>
             <thead>

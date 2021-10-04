@@ -56,8 +56,10 @@ public class CheckoutPageServlet extends HttpServlet {
 
         if (errors.isEmpty()) {
             orderService.placeOrder(order);
-            cartService.clearCart(cart, request);
-            response.sendRedirect(request.getContextPath() + "/order/overview/" + order.getSecureId());
+            cartService.clearCart(request);
+            //response.sendRedirect(request.getContextPath() + "/order/overview/" + order.getSecureId());
+            response.sendRedirect(String.format("%s/order/overview/%s?message=Order placed successfully",
+                    request.getContextPath(), order.getSecureId()));
         } else {
             request.setAttribute(ATTRIBUTE_ERRORS, errors);
             request.setAttribute(ATTRIBUTE_ORDER, order);
