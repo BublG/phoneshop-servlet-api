@@ -1,5 +1,6 @@
 package com.es.phoneshop.dao;
 
+import com.es.phoneshop.exception.ModelNotFoundException;
 import com.es.phoneshop.model.ItemWithId;
 
 import java.util.ArrayList;
@@ -20,13 +21,13 @@ public abstract class GenericDao<T extends ItemWithId> {
         items = new ArrayList<>();
     }
 
-    public T get(Long id, RuntimeException e) {
+    public T get(Long id) {
         readLock.lock();
         try {
             return items.stream()
                     .filter(item -> id.equals(item.getId()))
                     .findAny()
-                    .orElseThrow(() -> e);
+                    .orElseThrow(() -> new ModelNotFoundException("Model with given id not found"));
         } finally {
             readLock.unlock();
         }

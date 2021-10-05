@@ -4,6 +4,7 @@ import com.es.phoneshop.comparator.ProductDescriptionAndPriceComparator;
 import com.es.phoneshop.comparator.ProductSearchComparator;
 import com.es.phoneshop.dao.GenericDao;
 import com.es.phoneshop.dao.ProductDao;
+import com.es.phoneshop.exception.ModelNotFoundException;
 import com.es.phoneshop.exception.ProductNotFoundException;
 import com.es.phoneshop.model.Product;
 
@@ -30,7 +31,11 @@ public class ArrayListProductDao extends GenericDao<Product> implements ProductD
 
     @Override
     public Product getProduct(Long id) throws ProductNotFoundException {
-        return get(id, new ProductNotFoundException("Product with given id not found", id));
+        try {
+            return get(id);
+        } catch (ModelNotFoundException e) {
+            throw new ProductNotFoundException("Product with given id not found", id);
+        }
     }
 
     @Override

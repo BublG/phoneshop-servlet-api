@@ -2,6 +2,7 @@ package com.es.phoneshop.dao.impl;
 
 import com.es.phoneshop.dao.GenericDao;
 import com.es.phoneshop.dao.OrderDao;
+import com.es.phoneshop.exception.ModelNotFoundException;
 import com.es.phoneshop.exception.OrderNotFoundException;
 import com.es.phoneshop.model.Order;
 
@@ -24,7 +25,11 @@ public class ArrayListOrderDao extends GenericDao<Order> implements OrderDao {
 
     @Override
     public Order getOrder(Long id) throws OrderNotFoundException {
-        return get(id, new OrderNotFoundException("Order with given id not found", id.toString()));
+        try {
+            return get(id);
+        } catch (ModelNotFoundException e) {
+            throw new OrderNotFoundException("Order with given id not found", id.toString());
+        }
     }
 
     @Override
