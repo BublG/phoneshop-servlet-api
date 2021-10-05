@@ -107,4 +107,11 @@ public class DefaultCartService implements CartService {
                         .multiply(new BigDecimal(cartItem.getQuantity())))
                 .reduce(new BigDecimal(0), BigDecimal::add));
     }
+
+    @Override
+    public void clearCart(HttpServletRequest request) {
+        synchronized (request.getSession()) {
+            request.getSession().removeAttribute(CART_SESSION_ATTRIBUTE);
+        }
+    }
 }

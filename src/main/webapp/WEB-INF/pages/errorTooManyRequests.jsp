@@ -2,7 +2,7 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 
-<tags:master pageTitle="Product not found">
+<tags:master pageTitle="Too many requests error">
     <a class="back-link" href="${pageContext.request.contextPath}/products">Home</a>
-    <h1>${pageContext.exception.message}</h1>
+    <h1>Too many requests. Try later.</h1>
 </tags:master>

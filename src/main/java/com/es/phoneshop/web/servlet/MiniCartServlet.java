@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.ATTRIBUTE_CART;
+import static com.es.phoneshop.constants.AppConstants.ATTRIBUTE_CART;
+import static com.es.phoneshop.constants.AppConstants.MINICART_JSP;
 
 public class MiniCartServlet extends HttpServlet {
     private CartService cartService;
-    private static final String MINICART_JSP = "/WEB-INF/pages/minicart.jsp";
 
     @Override
     public void init(ServletConfig config) throws ServletException {

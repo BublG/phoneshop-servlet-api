@@ -12,14 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.es.phoneshop.web.servlet.CartPageServlet.PARAM_PRODUCT_ID;
-import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.ATTRIBUTE_PRODUCT;
-import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.ATTRIBUTE_RECENTLY_VIEWED_LIST;
+import static com.es.phoneshop.constants.AppConstants.*;
 
 public class ProductPriceHistoryServlet extends HttpServlet {
     private ProductDao productDao;
     private RecentlyViewedListService recentlyViewedListService;
-    private static final String PRICE_HISTORY_JSP = "/WEB-INF/pages/productPriceHistory.jsp";
 
     @Override
     public void init(ServletConfig config) throws ServletException {

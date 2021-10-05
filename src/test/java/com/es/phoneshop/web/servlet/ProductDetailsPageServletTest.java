@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Locale;
 
-import static com.es.phoneshop.web.servlet.ProductDetailsPageServlet.*;
+import static com.es.phoneshop.constants.AppConstants.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

@@ -1,7 +1,6 @@
 package com.es.phoneshop.service;
 
 import com.es.phoneshop.dao.impl.ArrayListProductDao;
-import com.es.phoneshop.service.CartService;
 import com.es.phoneshop.service.impl.DefaultCartService;
 import com.es.phoneshop.exception.OutOfStockException;
 import com.es.phoneshop.model.Cart;

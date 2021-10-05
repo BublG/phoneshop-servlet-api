@@ -69,10 +69,19 @@
                     </td>
                 </tr>
             </c:forEach>
+            <tr>
+                <td>Total</td>
+                <td></td>
+                <td><fmt:formatNumber value="${cart.totalCost}" type="currency" currencySymbol="${cart.items[0].product.currency.symbol}"/></td>
+                <td><fmt:formatNumber value="${cart.totalQuantity}"/></td>
+            </tr>
         </table>
         <p>
             <button>Update</button>
         </p>
     </form>
     <form id="delete" method="post"></form>
+    <a href="${pageContext.servletContext.contextPath}/checkout">
+        <button>Checkout</button>
+    </a>
 </tags:master>
